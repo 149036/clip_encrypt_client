@@ -1,0 +1,30 @@
+name: clip_encrypt_client
+description: "A new Flutter project."
+publish_to: "none"
+version: 1.0.0+1
+
+environment:
+  sdk: ">=3.3.0 <4.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons:
+  googleapis:
+  google_sign_in:
+  path_provider:
+  sign_in_button:
+  http:
+  flutter_riverpod:
+  envied:
+  go_router:
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.0
+  build_runner:
+  envied_generator:
+
+flutter:
+  uses-material-design: true
