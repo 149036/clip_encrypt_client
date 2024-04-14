@@ -13,10 +13,10 @@ class LoginPage extends ConsumerWidget {
       onPressed: () async {
         final googleAuth = await AuthService().signInWithGoogle();
         final accessToken = googleAuth?.accessToken;
-        if (accessToken != null) {
-          ref.read(accessTokenProvider.notifier).state = accessToken;
-          context.go("/home_page");
-        }
+        if (accessToken == null) return;
+
+        ref.read(accessTokenProvider.notifier).state = accessToken;
+        context.go("/home_page");
       },
     );
 

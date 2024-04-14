@@ -14,16 +14,40 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return HomePageScreen();
+    return const HomePageScreen();
   }
 }
 
 class HomePageScreen extends ConsumerWidget {
   const HomePageScreen({super.key});
 
-  setResponse(WidgetRef ref, response) {
+  _setResponse(WidgetRef ref, response) {
     final notifier = ref.read(responseProvider.notifier);
     notifier.state = response.body;
+  }
+
+  _post(driveFolderIdController, videoUrlController, ref) async {
+    Uri url = Uri.parse('http://127.0.0.1:7999/drive/');
+    Map<String, dynamic> requestBody;
+    requestBody = {
+      "drive_folder_id": "${driveFolderIdController.text}",
+      "video_url": "${videoUrlController.text}",
+      "access_token": "${ref.watch(accessTokenProvider)}",
+      "encryption": true,
+    };
+    try {
+      final response = await http.post(
+        url,
+        headers: {"content-type": "application/json"},
+        body: json.encode(requestBody),
+      );
+      if (response.statusCode == 200) {
+        _setResponse(ref, response);
+        debugPrint("${response.body}");
+      }
+    } catch (e) {
+      debugPrint("${e}");
+    }
   }
 
   @override
@@ -33,45 +57,24 @@ class HomePageScreen extends ConsumerWidget {
 
     final videoUrl = TextField(
       controller: videoUrlController,
-      decoration: InputDecoration(
+      decoration: const InputDecoration(
         border: OutlineInputBorder(),
         labelText: "video url",
       ),
     );
     final driveFolderId = TextField(
       controller: driveFolderIdController,
-      decoration: InputDecoration(
+      decoration: const InputDecoration(
         border: OutlineInputBorder(),
         labelText: "drive folder id",
       ),
     );
 
-    Map<String, dynamic> requestBody;
     final postButton = ElevatedButton(
       onPressed: () async {
-        Uri url = Uri.parse('http://127.0.0.1:7999/drive/');
-        // Uri url = Uri.parse('https://clip-encrypt.com/drive');
-        requestBody = {
-          "drive_folder_id": "${driveFolderIdController.text}",
-          "video_url": "${videoUrlController.text}",
-          "access_token": "${ref.watch(accessTokenProvider)}",
-          "encryption": true,
-        };
-        try {
-          final response = await http.post(
-            url,
-            headers: {"content-type": "application/json"},
-            body: json.encode(requestBody),
-          );
-          if (response.statusCode == 200) {
-            setResponse(ref, response);
-            debugPrint("${response.body}");
-          }
-        } catch (e) {
-          debugPrint("${e}");
-        }
+        _post(driveFolderIdController, videoUrlController, ref);
       },
-      child: Text("post"),
+      child: const Text("post"),
     );
 
     return Scaffold(
@@ -81,14 +84,14 @@ class HomePageScreen extends ConsumerWidget {
           child: Column(
             children: [
               videoUrl,
-              SizedBox(height: 8),
+              const SizedBox(height: 8),
               driveFolderId,
-              SizedBox(height: 8),
+              const SizedBox(height: 8),
               postButton,
-              SizedBox(height: 8),
+              const SizedBox(height: 8),
               ref.watch(responseProvider) != null
                   ? Text("${ref.watch(responseProvider)}")
-                  : Text(""),
+                  : const Text(""),
             ],
           ),
         ),

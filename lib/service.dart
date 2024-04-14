@@ -17,7 +17,10 @@ class AuthService {
       // "email",
       DriveApi.driveScope, //google drive フルアクセス
     ];
-    final request = GoogleSignIn(clientId: clientId, scopes: scopes);
+    final request = GoogleSignIn(
+      clientId: clientId,
+      scopes: scopes,
+    );
     final response = await request.signIn();
     final googleAuth = await response?.authentication;
     return googleAuth;
