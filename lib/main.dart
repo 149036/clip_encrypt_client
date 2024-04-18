@@ -26,7 +26,7 @@ class App extends StatelessWidget {
       GoRoute(
         path: "/home_page",
         builder: (context, state) => HomePage(),
-      )
+      ),
     ],
   );
 
@@ -39,3 +39,4 @@ class App extends StatelessWidget {
     );
   }
 }
+
