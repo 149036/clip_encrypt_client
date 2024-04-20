@@ -1,3 +1,4 @@
+import 'package:clip_encrypt_client/provider/providers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -14,7 +15,7 @@ class LoginPage extends ConsumerWidget {
         final googleAuth = await AuthService().signInWithGoogle();
         final accessToken = googleAuth?.accessToken;
         if (accessToken == null) return;
-
+        debugPrint("${googleAuth}");
         ref.read(accessTokenProvider.notifier).state = accessToken;
         context.go("/home_page");
       },

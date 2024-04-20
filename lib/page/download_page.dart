@@ -2,14 +2,10 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:clip_encrypt_client/files.dart';
-import 'package:clip_encrypt_client/service.dart';
+import 'package:clip_encrypt_client/provider/providers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart' as http;
-
-final responseProvider = StateProvider<String?>((ref) {
-  return;
-});
 
 class DownloadPage extends StatelessWidget {
   const DownloadPage({super.key});
@@ -30,7 +26,7 @@ class HomePageScreen extends ConsumerWidget {
 
   _post(driveFolderIdController, videoUrlController, ref) async {
     Uri url = Uri.parse('http://127.0.0.1:7999/drive/');
-    // Uri url = Uri.parse('https://clip-encrypt.com/drive/');
+    // Uri url = Uri.parse('https://clip-encrypt.com/drive');
     Map<String, dynamic> requestBody;
     requestBody = {
       "drive_folder_id": "${driveFolderIdController.text}",
@@ -82,6 +78,16 @@ class HomePageScreen extends ConsumerWidget {
       child: const Text("post"),
     );
 
+    final debugPrintAccessToken = ElevatedButton(
+      onPressed: () {
+        debugPrint("${ref.watch(accessTokenProvider)}");
+      },
+      child: Text("print access token"),
+    );
+    final accessToken = ref.watch(accessTokenProvider) != null
+        ? Text("${ref.watch(accessTokenProvider)}")
+        : Text("");
+
     return Scaffold(
       body: Center(
         child: Padding(
@@ -97,6 +103,8 @@ class HomePageScreen extends ConsumerWidget {
               ref.watch(responseProvider) != null
                   ? Text("${ref.watch(responseProvider)}")
                   : const Text(""),
+              debugPrintAccessToken,
+              accessToken,
             ],
           ),
         ),

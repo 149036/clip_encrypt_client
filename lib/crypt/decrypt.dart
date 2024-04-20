@@ -3,6 +3,7 @@ import 'dart:html' as html;
 import 'dart:typed_data';
 import 'package:clip_encrypt_client/files.dart';
 import 'package:clip_encrypt_client/page/decrypt_page.dart';
+import 'package:clip_encrypt_client/provider/providers.dart';
 import 'package:encrypt/encrypt.dart';
 
 class MyDecrypt {
@@ -32,7 +33,7 @@ class MyDecrypt {
         final reader = html.FileReader();
         reader.readAsArrayBuffer(file);
         reader.onLoadEnd.listen((event) {
-          final fileName = ref.watch(FileNameProvider);
+          final fileName = ref.watch(fileNameProvider);
           final key = Key.fromBase64(ref.watch(keyProvider));
           final iv = IV.fromBase64(ref.watch(ivProvider));
           final content = reader.result as Uint8List;

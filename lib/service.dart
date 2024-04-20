@@ -4,9 +4,7 @@ import 'package:googleapis/drive/v3.dart';
 
 import 'env.dart';
 
-final accessTokenProvider = StateProvider<String?>((ref) {
-  return;
-});
+
 
 class AuthService {
   Future<GoogleSignInAuthentication?> signInWithGoogle() async {

@@ -1,11 +1,10 @@
 import 'package:clip_encrypt_client/page/decrypt_page.dart';
 import 'package:clip_encrypt_client/page/download_page.dart';
+import 'package:clip_encrypt_client/provider/providers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final indexProvider = StateProvider((ref) {
-  return 0;
-});
+
 
 class HomePage extends ConsumerWidget {
   const HomePage({super.key});

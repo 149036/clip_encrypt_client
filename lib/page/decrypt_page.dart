@@ -1,18 +1,8 @@
 import 'package:clip_encrypt_client/files.dart';
+import 'package:clip_encrypt_client/provider/providers.dart';
 import 'package:flutter/material.dart' hide Key;
 import "package:clip_encrypt_client/crypt/decrypt.dart";
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-final FileNameProvider = StateProvider<String?>((ref) {
-  return;
-});
-
-final keyProvider = StateProvider<String?>((ref) {
-  return;
-});
-final ivProvider = StateProvider<String?>((ref) {
-  return;
-});
 
 class DecryptPage extends ConsumerWidget {
   const DecryptPage({super.key});
@@ -40,8 +30,8 @@ class DecryptPage extends ConsumerWidget {
       child: Text("select key.json"),
     );
 
-    final fileNameText = ref.watch(FileNameProvider) != null
-        ? Text("filename : ${ref.watch(FileNameProvider)!}")
+    final fileNameText = ref.watch(fileNameProvider) != null
+        ? Text("filename : ${ref.watch(fileNameProvider)!}")
         : const Text("filename : none");
     final keyText = ref.watch(keyProvider) != null
         ? Text("key : ${ref.watch(keyProvider)!}")

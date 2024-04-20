@@ -3,6 +3,7 @@ import 'dart:typed_data';
 import 'dart:html' as html;
 
 import 'package:clip_encrypt_client/page/decrypt_page.dart';
+import 'package:clip_encrypt_client/provider/providers.dart';
 import 'package:file_selector/file_selector.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -62,7 +63,7 @@ class Files {
             debugPrint("file name : ${key}");
             debugPrint("key       : ${value["key"]}");
             debugPrint("iv        : ${value["iv"]}");
-            ref.read(FileNameProvider.notifier).state = key;
+            ref.read(fileNameProvider.notifier).state = key;
             ref.read(keyProvider.notifier).state = value["key"];
             ref.read(ivProvider.notifier).state = value["iv"];
           });
