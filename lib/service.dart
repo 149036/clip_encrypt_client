@@ -1,14 +1,11 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:googleapis/drive/v3.dart';
 
 import 'env.dart';
 
-
-
 class AuthService {
   Future<GoogleSignInAuthentication?> signInWithGoogle() async {
-    // TODO: dotenv
+    //dot env
     final clientId = Env.clientId;
 
     final scopes = [

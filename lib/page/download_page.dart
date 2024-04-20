@@ -43,6 +43,10 @@ class HomePageScreen extends ConsumerWidget {
       if (response.statusCode == 200) {
         final body = response.body;
         _setResponse(ref, body);
+        debugPrint(body);
+        if (body == '{"message":"error"}') {
+          return;
+        }
         final fileData = Uint8List.fromList(utf8.encode(body));
         Files.save(fileData, "key.json", "application/json");
       }

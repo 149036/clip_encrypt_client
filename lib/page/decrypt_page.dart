@@ -27,15 +27,17 @@ class DecryptPage extends ConsumerWidget {
       onPressed: () {
         Files.selectKeyJson(ref);
       },
-      child: Text("select key.json"),
+      child: const Text("select key.json"),
     );
 
     final fileNameText = ref.watch(fileNameProvider) != null
         ? Text("filename : ${ref.watch(fileNameProvider)!}")
         : const Text("filename : none");
+
     final keyText = ref.watch(keyProvider) != null
         ? Text("key : ${ref.watch(keyProvider)!}")
         : const Text("key : none");
+
     final ivText = ref.watch(ivProvider) != null
         ? Text("iv : ${ref.watch(ivProvider)!}")
         : const Text("iv : none");

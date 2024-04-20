@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:html' as html;
 import 'dart:typed_data';
 import 'package:clip_encrypt_client/files.dart';
-import 'package:clip_encrypt_client/page/decrypt_page.dart';
 import 'package:clip_encrypt_client/provider/providers.dart';
 import 'package:encrypt/encrypt.dart';
 
@@ -12,9 +11,9 @@ class MyDecrypt {
 
   static void _decrypt(
       String encryptedFileName, Key key, IV iv, Uint8List content) {
-    final utf8_decoded_content = utf8.decode(content);
+    final utf8DecodedContent = utf8.decode(content);
     final encrypter = Encrypter(AES(key, mode: AESMode.cbc));
-    final cleanedString = utf8_decoded_content.replaceAll('\n', '');
+    final cleanedString = utf8DecodedContent.replaceAll('\n', '');
     final e = Encrypted.fromBase64(cleanedString);
 
     final decrypted = encrypter.decryptBytes(e, iv: iv);
