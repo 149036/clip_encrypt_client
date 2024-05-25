@@ -25,7 +25,7 @@ class HomePageScreen extends ConsumerWidget {
   }
 
   _post(driveFolderIdController, videoUrlController, ref) async {
-    Uri url = Uri.parse('http://127.0.0.1:7999/drive/');
+    Uri url = Uri.parse('http://127.0.0.1:7999/drive');
     // Uri url = Uri.parse('https://clip-encrypt.com/drive');
     Map<String, dynamic> requestBody;
     requestBody = {
@@ -82,15 +82,15 @@ class HomePageScreen extends ConsumerWidget {
       child: const Text("post"),
     );
 
-    final debugPrintAccessToken = ElevatedButton(
-      onPressed: () {
-        debugPrint("${ref.watch(accessTokenProvider)}");
-      },
-      child: Text("print access token"),
-    );
-    final accessToken = ref.watch(accessTokenProvider) != null
-        ? Text("${ref.watch(accessTokenProvider)}")
-        : Text("");
+    // final debugPrintAccessToken = ElevatedButton(
+    //   onPressed: () {
+    //     debugPrint("${ref.watch(accessTokenProvider)}");
+    //   },
+    //   child: Text("print access token"),
+    // );
+    // final accessToken = ref.watch(accessTokenProvider) != null
+    //     ? Text("${ref.watch(accessTokenProvider)}")
+    //     : Text("");
 
     return Scaffold(
       body: Center(
@@ -107,8 +107,8 @@ class HomePageScreen extends ConsumerWidget {
               ref.watch(responseProvider) != null
                   ? Text("${ref.watch(responseProvider)}")
                   : const Text(""),
-              debugPrintAccessToken,
-              accessToken,
+              // debugPrintAccessToken,
+              // accessToken,
             ],
           ),
         ),

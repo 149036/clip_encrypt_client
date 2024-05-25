@@ -24,59 +24,53 @@ class Files {
     await textFile.saveTo(result.path);
   }
 
-  static void select() {}
-
   static void cat() {
-    html.FileUploadInputElement uploadInput = html.FileUploadInputElement();
-    uploadInput.click();
-    uploadInput.onChange.listen((event) {
-      final files = uploadInput.files;
-      if (files?.length == 1) {
-        final file = files![0];
-        final reader = html.FileReader();
-        reader.readAsArrayBuffer(file);
-        reader.onLoadEnd.listen((event) {
-          final content = reader.result as Uint8List;
-          saveVideoBlob(content, "a.txt");
-        });
-      }
+    select((reader) {
+      final content = reader.result as Uint8List;
+      _saveVideoBlob(content, "a.txt");
     });
   }
 
   static void selectKeyJson(WidgetRef ref) {
-    html.FileUploadInputElement uploadInput = html.FileUploadInputElement();
-    uploadInput.click();
-    uploadInput.onChange.listen((event) {
-      final files = uploadInput.files;
-      if (files?.length == 1) {
-        final file = files![0];
-        final reader = html.FileReader();
-        reader.readAsArrayBuffer(file);
-        reader.onLoadEnd.listen((event) {
-          final content = reader.result as Uint8List;
-          final utf8content = utf8.decode(content);
+    select((reader) {
+      final content = reader.result as Uint8List;
+      final utf8content = utf8.decode(content);
 
-          debugPrint(utf8content);
-          Map jsonData = jsonDecode(utf8content);
-          jsonData.forEach((key, value) {
-            debugPrint("file name : ${key}");
-            debugPrint("key       : ${value["key"]}");
-            debugPrint("iv        : ${value["iv"]}");
-            ref.read(fileNameProvider.notifier).state = key;
-            ref.read(keyProvider.notifier).state = value["key"];
-            ref.read(ivProvider.notifier).state = value["iv"];
-          });
-        });
-      }
+      debugPrint(utf8content);
+      Map jsonData = jsonDecode(utf8content);
+      jsonData.forEach((key, value) {
+        debugPrint("file name : ${key}");
+        debugPrint("key       : ${value["key"]}");
+        debugPrint("iv        : ${value["iv"]}");
+        ref.read(fileNameProvider.notifier).state = key;
+        ref.read(keyProvider.notifier).state = value["key"];
+        ref.read(ivProvider.notifier).state = value["iv"];
+      });
     });
   }
 
-  static void saveVideoBlob(Uint8List data, String fileName) {
+  static void _saveVideoBlob(Uint8List data, String fileName) {
     final blob = html.Blob([data]);
     final url = html.Url.createObjectUrlFromBlob(blob);
     final anchor = html.AnchorElement(href: url)
       ..setAttribute("downlaod", fileName)
       ..click();
     html.Url.revokeObjectUrl(url);
+  }
+
+  static void select(Function cont) {
+    html.FileUploadInputElement uploadInput = html.FileUploadInputElement();
+    uploadInput.click();
+    uploadInput.onChange.listen((event) {
+      final files = uploadInput.files;
+      if (files?.length == 1) {
+        final file = files![0];
+        final reader = html.FileReader();
+        reader.readAsArrayBuffer(file);
+        reader.onLoadEnd.listen((event) {
+          cont(reader);
+        });
+      }
+    });
   }
 }

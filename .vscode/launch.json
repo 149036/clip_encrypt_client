@@ -14,6 +14,30 @@
       ]
     },
     {
+      "name": "dev-and-1",
+      "request": "launch",
+      "type": "dart",
+      "flutterMode": "debug",
+      "program": "lib/main.dart",
+      "args": [
+        "-d",
+        "emulator-5554", //デバイス
+        "--dart-define-from-file=scripts/flavors/dev.json"
+      ]
+    },
+    {
+      "name": "dev-and-2",
+      "request": "launch",
+      "type": "dart",
+      "flutterMode": "debug",
+      "program": "lib/main.dart",
+      "args": [
+        "-d",
+        "emulator-5556", //デバイス
+        "--dart-define-from-file=scripts/flavors/dev.json"
+      ]
+    },
+    {
       "name": "stg",
       "request": "launch",
       "type": "dart",
