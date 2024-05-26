@@ -9,9 +9,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class Files {
   static void save(
-    Uint8List fileData,
     String fileName,
     String mimeType,
+    Uint8List content,
   ) async {
     final FileSaveLocation? result =
         await getSaveLocation(suggestedName: fileName);
@@ -20,7 +20,7 @@ class Files {
     }
 
     final XFile textFile =
-        XFile.fromData(fileData, mimeType: mimeType, name: fileName);
+        XFile.fromData(content, mimeType: mimeType, name: fileName);
     await textFile.saveTo(result.path);
   }
 

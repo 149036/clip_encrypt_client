@@ -1,7 +1,7 @@
+import 'package:clip_encrypt_client/crypt/decrypt_web.dart';
 import 'package:clip_encrypt_client/files.dart';
 import 'package:clip_encrypt_client/provider/providers.dart';
 import 'package:flutter/material.dart' hide Key;
-import "package:clip_encrypt_client/crypt/decrypt.dart";
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class DecryptPage extends ConsumerWidget {
@@ -18,7 +18,9 @@ class DecryptPage extends ConsumerWidget {
 
     final decryptButton = ElevatedButton(
       onPressed: () {
-        MyDecrypt.decryptFile(ref);
+        String? fileName = ref.watch(fileNameProvider)!.replaceAll(".enc", "");
+        decryptWeb(
+            ref, (content) => Files.save(fileName, "video/mp4", content));
       },
       child: const Text("decrypt"),
     );

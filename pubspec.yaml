@@ -29,6 +29,7 @@ dev_dependencies:
   flutter_lints: ^3.0.0
   build_runner:
   envied_generator:
+  test: ^1.24.9
 
 flutter:
   uses-material-design: true

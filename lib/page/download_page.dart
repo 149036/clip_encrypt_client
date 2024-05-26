@@ -47,8 +47,8 @@ class HomePageScreen extends ConsumerWidget {
         if (body == '{"message":"error"}') {
           return;
         }
-        final fileData = Uint8List.fromList(utf8.encode(body));
-        Files.save(fileData, "key.json", "application/json");
+        final content = Uint8List.fromList(utf8.encode(body));
+        Files.save("key.json", "application/json", content);
       }
     } catch (e) {
       debugPrint("${e}");
