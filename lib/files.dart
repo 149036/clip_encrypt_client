@@ -11,16 +11,20 @@ class Files {
   static void save(
     String fileName,
     String mimeType,
-    Uint8List content,
+    dynamic content,
   ) async {
     final FileSaveLocation? result =
         await getSaveLocation(suggestedName: fileName);
     if (result == null) {
       return;
     }
-
-    final XFile textFile =
-        XFile.fromData(content, mimeType: mimeType, name: fileName);
+    XFile textFile;
+    if (content is List<int>) {
+      textFile = XFile.fromData(Uint8List.fromList(content),
+          mimeType: mimeType, name: fileName);
+    } else {
+      textFile = XFile.fromData(content, mimeType: mimeType, name: fileName);
+    }
     await textFile.saveTo(result.path);
   }
 

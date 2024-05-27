@@ -1,25 +1,10 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final accessTokenProvider = StateProvider<String?>((ref) {
-  return;
-});
+final accessTokenProvider = StateProvider<String?>((ref) => null);
+final responseProvider = StateProvider<String?>((ref) => null);
 
-final fileNameProvider = StateProvider<String?>((ref) {
-  return;
-});
+final fileNameProvider = StateProvider<String>((ref) => "none");
+final keyProvider = StateProvider<String>((ref) => "none");
+final ivProvider = StateProvider<String>((ref) => "none");
 
-final keyProvider = StateProvider<String?>((ref) {
-  return;
-});
-
-final ivProvider = StateProvider<String?>((ref) {
-  return;
-});
-
-final responseProvider = StateProvider<String?>((ref) {
-  return;
-});
-
-final indexProvider = StateProvider((ref) {
-  return 0;
-});
+final indexProvider = StateProvider((ref) => 0);

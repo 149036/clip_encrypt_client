@@ -17,7 +17,7 @@ class App extends StatelessWidget {
   App({super.key});
 
   final router = GoRouter(
-    initialLocation: "/login_page",
+    initialLocation: "/home_page",
     routes: [
       GoRoute(
         path: "/login_page",

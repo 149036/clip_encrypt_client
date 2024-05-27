@@ -10,39 +10,23 @@ class DecryptPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final catFileButton = ElevatedButton(
-      onPressed: () {
-        Files.cat();
-      },
+      onPressed: () => Files.cat(),
       child: const Text("cat"),
     );
 
     final decryptButton = ElevatedButton(
-      onPressed: () {
-        String? fileName = ref.watch(fileNameProvider)!.replaceAll(".enc", "");
-        decryptWeb(
-            ref, (content) => Files.save(fileName, "video/mp4", content));
-      },
+      onPressed: () => decryptToSave(ref),
       child: const Text("decrypt"),
     );
 
     final selectJsonButton = ElevatedButton(
-      onPressed: () {
-        Files.selectKeyJson(ref);
-      },
+      onPressed: () => Files.selectKeyJson(ref),
       child: const Text("select key.json"),
     );
 
-    final fileNameText = ref.watch(fileNameProvider) != null
-        ? Text("filename : ${ref.watch(fileNameProvider)!}")
-        : const Text("filename : none");
-
-    final keyText = ref.watch(keyProvider) != null
-        ? Text("key : ${ref.watch(keyProvider)!}")
-        : const Text("key : none");
-
-    final ivText = ref.watch(ivProvider) != null
-        ? Text("iv : ${ref.watch(ivProvider)!}")
-        : const Text("iv : none");
+    final fileNameText = Text("filename : ${ref.watch(fileNameProvider)}");
+    final keyText = Text("key : ${ref.watch(keyProvider)}");
+    final ivText = Text("iv : ${ref.watch(ivProvider)}");
 
     return Scaffold(
       body: Center(
