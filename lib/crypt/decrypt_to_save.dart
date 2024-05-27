@@ -1,6 +1,6 @@
 import 'dart:typed_data';
 
-import 'package:clip_encrypt_client/crypt/decrypt.dart';
+import 'package:clip_encrypt_client/crypt/my_crypt.dart';
 import 'package:clip_encrypt_client/files.dart';
 import 'package:clip_encrypt_client/provider/providers.dart';
 import 'package:encrypt/encrypt.dart';
