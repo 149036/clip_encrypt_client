@@ -7,11 +7,9 @@ import 'package:encrypt/encrypt.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 void decryptToSave(WidgetRef ref) {
-  Files.select((reader) {
-    String fileName = ref.watch(fileNameProvider).replaceAll(".enc", "");
-    Key key = Key.fromBase64(ref.watch(keyProvider));
-    IV iv = IV.fromBase64(ref.watch(ivProvider));
-    Uint8List content = reader.result as Uint8List;
-    Files.save(fileName, "video/mp4", (MyCrypt().decrypt(key, iv, content)));
-  });
+  String fileName = ref.watch(aesKeyProvider)!.fileName.replaceAll(".enc", "");
+  Key key = Key.fromBase64(ref.watch(aesKeyProvider)!.key);
+  IV iv = IV.fromBase64(ref.watch(aesKeyProvider)!.iv);
+  Uint8List content = ref.watch(encryptedFileProvider)!;
+  Files.save(fileName, "video/mp4", MyCrypt().decrypt(key, iv, content));
 }

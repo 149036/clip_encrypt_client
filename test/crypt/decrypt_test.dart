@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
-import 'package:clip_encrypt_client/crypt/decrypt.dart';
+import 'package:clip_encrypt_client/crypt/my_crypt.dart';
 import 'package:encrypt/encrypt.dart';
 import 'package:test/test.dart';
 
@@ -13,7 +13,7 @@ void main() {
     String target = "0yW6DiREMDQE58kIxgjxzw=="; // Hello Encrypt!
     Uint8List content = Uint8List.fromList(base64Decode(target));
 
-    String str = utf8.decode(myDecrypt(key, iv, content));
+    String str = utf8.decode(MyCrypt().decrypt(key, iv, content));
 
     expect("Hello Encrypt!", str);
   });
