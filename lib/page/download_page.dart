@@ -1,11 +1,8 @@
-import 'dart:convert';
-import 'dart:typed_data';
-
-import 'package:clip_encrypt_client/files.dart';
+import 'package:clip_encrypt_client/crypt/algo.dart';
 import 'package:clip_encrypt_client/provider/providers.dart';
+import 'package:clip_encrypt_client/request/request.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:http/http.dart' as http;
 
 class DownloadPage extends StatelessWidget {
   const DownloadPage({super.key});
@@ -18,42 +15,6 @@ class DownloadPage extends StatelessWidget {
 
 class HomePageScreen extends ConsumerWidget {
   const HomePageScreen({super.key});
-
-  _setResponse(WidgetRef ref, content) {
-    final notifier = ref.read(responseProvider.notifier);
-    notifier.state = content;
-  }
-
-  _post(driveFolderIdController, videoUrlController, ref) async {
-    Uri url = Uri.parse('http://127.0.0.1:7999/drive');
-    // Uri url = Uri.parse('https://clip-encrypt.com/drive');
-    Map<String, dynamic> requestBody;
-    requestBody = {
-      "drive_folder_id": "${driveFolderIdController.text}",
-      "video_url": "${videoUrlController.text}",
-      "access_token": "${ref.watch(accessTokenProvider)}",
-      "encryption": true,
-    };
-    try {
-      final response = await http.post(
-        url,
-        headers: {"content-type": "application/json"},
-        body: json.encode(requestBody),
-      );
-      if (response.statusCode == 200) {
-        final body = response.body;
-        _setResponse(ref, body);
-        debugPrint(body);
-        if (body == '{"message":"error"}') {
-          return;
-        }
-        final content = Uint8List.fromList(utf8.encode(body));
-        Files.save("key.json", "application/json", content);
-      }
-    } catch (e) {
-      debugPrint("${e}");
-    }
-  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -77,20 +38,30 @@ class HomePageScreen extends ConsumerWidget {
 
     final postButton = ElevatedButton(
       onPressed: () async {
-        _post(driveFolderIdController, videoUrlController, ref);
+        Request().post(driveFolderIdController, videoUrlController, ref);
       },
       child: const Text("post"),
     );
+    final response = Text("response : ${ref.watch(responseProvider)}");
 
-    // final debugPrintAccessToken = ElevatedButton(
-    //   onPressed: () {
-    //     debugPrint("${ref.watch(accessTokenProvider)}");
-    //   },
-    //   child: Text("print access token"),
-    // );
-    // final accessToken = ref.watch(accessTokenProvider) != null
-    //     ? Text("${ref.watch(accessTokenProvider)}")
-    //     : Text("");
+    const cryptAlgoText = Text("暗号アルゴリズム");
+    final cryptAlgoDropdownButton = DropdownButton(
+      value: ref.watch(cryptAlgoProvider),
+      items: [
+        for (int i = 0; i < CryptAlgo.values.length; i++) ...{
+          DropdownMenuItem(
+            value: CryptAlgo.values[i],
+            child: Text("${CryptAlgo.values[i].name}"),
+          )
+        },
+      ],
+      onChanged: (newCryptAlgo) {
+        final notifier = ref.read(cryptAlgoProvider.notifier);
+        // notifier.state = newCryptAlgo!;
+        notifier.state = newCryptAlgo!;
+        debugPrint("cryptAlgo : ${ref.watch(cryptAlgoProvider).name}");
+      },
+    );
 
     return Scaffold(
       body: Center(
@@ -102,13 +73,18 @@ class HomePageScreen extends ConsumerWidget {
               const SizedBox(height: 8),
               driveFolderId,
               const SizedBox(height: 8),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  cryptAlgoText,
+                  const SizedBox(width: 8),
+                  cryptAlgoDropdownButton
+                ],
+              ),
+              const SizedBox(height: 8),
               postButton,
               const SizedBox(height: 8),
-              ref.watch(responseProvider) != null
-                  ? Text("${ref.watch(responseProvider)}")
-                  : const Text(""),
-              // debugPrintAccessToken,
-              // accessToken,
+              response,
             ],
           ),
         ),

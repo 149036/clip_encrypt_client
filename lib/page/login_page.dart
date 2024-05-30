@@ -17,7 +17,7 @@ class LoginPage extends ConsumerWidget {
         if (accessToken == null) return;
         debugPrint("${googleAuth}");
         ref.read(accessTokenProvider.notifier).state = accessToken;
-        context.go("/home_page");
+        context.go("/");
       },
     );
 
